@@ -10,6 +10,7 @@ mask_image = imageio.imread("mask_heart.png")
 
 wordcloud = WordCloud(colormap='prism',mask=mask_image,background_color='white')
 
+print(type(text))
 wordcloud = wordcloud.generate(text)
 
 wordcloud = wordcloud.to_file("RomeoAndJulietHeart.png")
