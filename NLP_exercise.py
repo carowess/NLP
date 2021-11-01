@@ -15,27 +15,20 @@ blob = TextBlob(Path('book of John text.txt').read_text())
 
 #nltk.download("stopwords")
 stops = stopwords.words("english")
-more_stops = ['thy', 'ye', 'verily', 'thee', 'hath', 'say', 'thou', 'art',
- 'shall', 'unto', 'said', 'therefore', 'saith', 'man',
- 'one', 'things', 'come', 'world','answered','came', 'may','also','went',
- 'sent', 'cometh', 'go', 'life', 'lord','even','witness','yet', 'given','see',
- 'word', 'heard', 'spake', 'made', 'hast','disciples', 'son',
- 'many', 'truth', 'believed', 'saying', 'day','knew',
- 'light', 'name', 'us', 'hour','give','water','works','feast', 'take',
- 'love', 'might','seen','saw','called','forth', 'would','another','bear','true']
-
+more_stops = ['thy', 'ye', 'verily', 'thee', 'hath', 'say', 'thou', 'art', 'shall']
 stops += more_stops
 
-print(stops)
+noun_phrases = blob.noun_phrases
 
 items = blob.word_counts.items()
-clean_items = [word for word in items if word[0] not in stops]
-
+clean_items = [word for word in items if word[0] not in stops if word[0] in noun_phrases]
 
 from operator import itemgetter
 sorted_list = sorted(clean_items, key=itemgetter(1), reverse=True)
+
 top15 = sorted_list[:15]
 print(top15)
+
 
 for i in top15:
     top15_wordcloud = [x[0] for x in top15]
@@ -48,5 +41,4 @@ print(string_for_wordcloud)
 wordcloud = WordCloud(colormap='Blues',background_color='gray')
 wordcloud = wordcloud.generate(string_for_wordcloud)
 wordcloud = wordcloud.to_file("BookOfJohnWordCloud.png")
-print("Done")
 
